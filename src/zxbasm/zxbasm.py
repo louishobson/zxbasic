@@ -15,6 +15,7 @@ import sys
 import os
 import argparse
 
+from src.zxbasm.memory import Memory
 from src.zxbpp import zxbpp
 
 import src.api.config
@@ -136,13 +137,14 @@ def main(args=None):
     OPTIONS.optimization_level = options.optimization_level
     OPTIONS.use_basic_loader = options.autorun or options.basic
     OPTIONS.autorun = options.autorun
+    OPTIONS.org = src.api.utils.parse_int(options.org)
     OPTIONS.stderr_filename = options.stderr
     OPTIONS.memory_map = options.memory_map
     OPTIONS.force_asm_brackets = options.bracket
     OPTIONS.zxnext = options.zxnext
 
-    if options.org is not None:
-        OPTIONS.org = src.api.utils.parse_int(OPTIONS.org)
+    if OPTIONS.org is None and options.org is not None:
+        o_parser.error(f"Invalid --org option '{options.org}'")
 
     if options.tzx:
         OPTIONS.output_file_type = "tzx"
@@ -173,7 +175,7 @@ def main(args=None):
 
     # Now output the result
     if OPTIONS.org is not None:
-        asmparse.MEMORY.set_org(OPTIONS.org)
+        asmparse.MEMORY = Memory(OPTIONS.org)
     asm_output = zxbpp.OUTPUT
     asmparse.assemble(asm_output)
     if global_.has_errors:
