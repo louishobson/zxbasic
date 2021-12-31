@@ -130,6 +130,7 @@ class TZX(CodeEmitter):
         self,
         output_filename,
         program_name,
+        loader_name,
         loader_bytes,
         entry_point,
         program_bytes,
@@ -138,7 +139,7 @@ class TZX(CodeEmitter):
     ):
         """Emits resulting tape file."""
         if loader_bytes is not None:
-            self.save_program("loader", loader_bytes, line=1)  # Put line 0 to protect against MERGE
+            self.save_program(loader_name, loader_bytes, line=1)  # Put line 0 to protect against MERGE
 
         self.save_code(program_name, entry_point, program_bytes)
         for name, block in aux_bin_blocks:

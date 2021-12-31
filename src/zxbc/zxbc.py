@@ -203,6 +203,8 @@ def main(args=None, emitter=None):
         asmparse.generate_binary(
             OPTIONS.output_filename,
             OPTIONS.output_file_type,
+            progname=OPTIONS.progname,
+            loadername=OPTIONS.loadername,
             binary_files=options.append_binary,
             headless_binary_files=options.append_headless_binary,
             emitter=emitter,

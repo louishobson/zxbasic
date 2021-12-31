@@ -21,6 +21,7 @@ class BinaryEmitter(CodeEmitter):
         self,
         output_filename,
         program_name,
+        loader_name,
         loader_bytes,
         entry_point,
         program_bytes,

@@ -60,7 +60,21 @@ def parser() -> argparse.ArgumentParser:
         action="store_true",
         dest="basic",
         default=None,
-        help="Creates a BASIC loader which loads the rest of the CODE. Requires -T ot -t",
+        help="Creates a BASIC loader which loads the rest of the CODE. Requires -T or -t",
+    )
+    parser_.add_argument(
+        "-p",
+        "--progname",
+        type=str,
+        dest="progname",
+        help="Sets the name of the bytes block. Requires -T or -t",
+    )
+    parser_.add_argument(
+        "-l",
+        "--loadername",
+        type=str,
+        dest="loadername",
+        help="Sets the name of the program block created by --BASIC (implies --BASIC)",
     )
     parser_.add_argument(
         "-a", "--autorun", action="store_true", default=None, help="Sets the program to be run once loaded"

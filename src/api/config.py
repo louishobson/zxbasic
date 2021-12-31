@@ -59,6 +59,8 @@ class OPTION(str, Enum):
     MEMORY_MAP = "memory_map"
 
     USE_BASIC_LOADER = "use_basic_loader"
+    PROGNAME = "progname"
+    LOADERNAME = "loadername"
     AUTORUN = "autorun"
     OUTPUT_FILE_TYPE = "output_file_type"
     INCLUDE_PATH = "include_path"
@@ -201,6 +203,8 @@ def init():
 
     # Whether to add autostart code (needs basic loader = true)
     OPTIONS(Action.ADD, name=OPTION.AUTORUN, type=bool, default=False, ignore_none=True)
+    OPTIONS(Action.ADD, name=OPTION.PROGNAME, type=str, default=None, ignore_none=True)  # Requires output file type to be tap or tzx
+    OPTIONS(Action.ADD, name=OPTION.LOADERNAME, type=str, default=None, ignore_none=True)  # Requires basic loader = true
     OPTIONS(Action.ADD, name=OPTION.OUTPUT_FILE_TYPE, type=str, default="bin")  # bin, tap, tzx etc...
     OPTIONS(Action.ADD, name=OPTION.INCLUDE_PATH, type=str, default="")  # Include path, like '/var/lib:/var/include'
 

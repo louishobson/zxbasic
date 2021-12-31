@@ -22,6 +22,7 @@ class CodeEmitter(ABC):
         self,
         output_filename: str,
         program_name: str,
+        loader_name: str,
         loader_bytes: bytearray,
         entry_point,
         program_bytes,

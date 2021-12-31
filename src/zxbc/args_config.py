@@ -104,8 +104,8 @@ def parse_options(args: List[str] = None):
     OPTIONS.case_insensitive = options.ignore_case
     debug.ENABLED = OPTIONS.debug_level > 0
 
-    if options.basic and not options.tzx and not options.tap:
-        parser.error("Option --BASIC and --autorun requires --tzx or tap format")
+    if (options.basic or options.progname is not None or options.loadername is not None) and not options.tzx and not options.tap:
+        parser.error("Option --BASIC, --progname, --loadername and --autorun require --tzx or tap format")
         return 4
 
     if options.append_binary and not options.tzx and not options.tap:
@@ -116,7 +116,9 @@ def parse_options(args: List[str] = None):
         parser.error("Option --asm and --mmap cannot be used together")
         return 6
 
-    OPTIONS.use_basic_loader = options.basic
+    OPTIONS.use_basic_loader = options.basic or options.loadername is not None
+    OPTIONS.progname = options.progname
+    OPTIONS.loadername = options.loadername
     OPTIONS.autorun = options.autorun
 
     if options.tzx:
