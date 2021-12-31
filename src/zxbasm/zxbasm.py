@@ -83,7 +83,23 @@ def main(args=None):
         action="store_true",
         dest="basic",
         default=False,
-        help="Creates a BASIC loader which load the rest of the CODE. Requires -T ot -t",
+        help="Creates a BASIC loader which load the rest of the CODE. Requires -T or -t",
+    )
+
+    o_parser.add_argument(
+        "-p",
+        "--progname",
+        type=str,
+        dest="progname",
+        help="Sets the name of the bytes block. Requires -T or -t",
+    )
+
+    o_parser.add_argument(
+        "-l",
+        "--loadername",
+        type=str,
+        dest="loadername",
+        help="Sets the name of the program block created by --BASIC (implies --BASIC)",
     )
 
     o_parser.add_argument(
@@ -129,7 +145,9 @@ def main(args=None):
     OPTIONS.input_filename = options.PROGRAM
     OPTIONS.output_filename = options.output_file
     OPTIONS.optimization_level = options.optimization_level
-    OPTIONS.use_basic_loader = options.autorun or options.basic
+    OPTIONS.use_basic_loader = options.autorun or options.basic or options.loadername is not None
+    OPTIONS.progname = options.progname
+    OPTIONS.loadername = options.loadername
     OPTIONS.autorun = options.autorun
     OPTIONS.stderr_filename = options.stderr
     OPTIONS.memory_map = options.memory_map
@@ -153,8 +171,8 @@ def main(args=None):
         o_parser.error("Options --tap, --tzx and --asm are mutually exclusive")
         return 3
 
-    if OPTIONS.use_basic_loader and not options.tzx and not options.tap:
-        o_parser.error("Option --BASIC and --autorun requires --tzx or tap format")
+    if (OPTIONS.use_basic_loader or OPTIONS.progname) and not options.tzx and not options.tap:
+        o_parser.error("Option --BASIC, --progname, --loadername, and --autorun requires --tzx or tap format")
         return 4
 
     # Configure the preprocessor to use the asm-preprocessor-lexer
@@ -193,7 +211,12 @@ def main(args=None):
         with open(OPTIONS.memory_map, "wt") as f:
             f.write(asmparse.MEMORY.memory_map)
 
-    asmparse.generate_binary(OPTIONS.output_filename, OPTIONS.output_file_type)
+    asmparse.generate_binary(
+        OPTIONS.output_filename,
+        OPTIONS.output_file_type,
+        progname=OPTIONS.progname,
+        loadername=OPTIONS.loadername,
+    )
     return global_.has_errors
 
 
