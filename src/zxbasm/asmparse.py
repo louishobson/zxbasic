@@ -973,7 +973,15 @@ def assemble(input_):
     return gl.has_errors
 
 
-def generate_binary(outputfname, format_, progname="", loadername="", binary_files=None, headless_binary_files=None, emitter=None):
+def generate_binary(
+        outputfname,
+        format_,
+        progname="",
+        loadername="",
+        binary_files=None,
+        headless_binary_files=None,
+        emitter=None
+):
     """Outputs the memory binary to the
     output filename using one of the given
     formats: tap, tzx or bin

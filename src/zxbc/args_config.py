@@ -104,7 +104,8 @@ def parse_options(args: List[str] = None):
     OPTIONS.case_insensitive = options.ignore_case
     debug.ENABLED = OPTIONS.debug_level > 0
 
-    if (options.basic or options.progname is not None or options.loadername is not None) and not options.tzx and not options.tap:
+    if (options.basic or options.progname is not None or options.loadername is not None) \
+            and not options.tzx and not options.tap:
         parser.error("Option --BASIC, --progname, --loadername and --autorun require --tzx or tap format")
         return 4
 
