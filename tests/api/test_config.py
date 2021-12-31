@@ -28,6 +28,8 @@ class TestConfig(unittest.TestCase):
         self.assertIsNone(config.OPTIONS.memory_map)
         self.assertEqual(config.OPTIONS.force_asm_brackets, False)
         self.assertEqual(config.OPTIONS.use_basic_loader, False)
+        self.assertIsNone(config.OPTIONS.progname)
+        self.assertIsNone(config.OPTIONS.loadername)
         self.assertEqual(config.OPTIONS.autorun, False)
         self.assertEqual(config.OPTIONS.output_file_type, "bin")
         self.assertEqual(config.OPTIONS.include_path, "")
@@ -65,12 +67,14 @@ class TestConfig(unittest.TestCase):
                 config.OPTION.HIDE_WARNING_CODES,
                 config.OPTION.INCLUDE_PATH,
                 config.OPTION.INPUT_FILENAME,
+                config.OPTION.LOADERNAME,
                 config.OPTION.MAX_SYN_ERRORS,
                 config.OPTION.CHECK_MEMORY,
                 config.OPTION.MEMORY_MAP,
                 config.OPTION.O_LEVEL,
                 config.OPTION.OUTPUT_FILE_TYPE,
                 config.OPTION.OUTPUT_FILENAME,
+                config.OPTION.PROGNAME,
                 "project_filename",
                 "sinclair",
                 config.OPTION.STDERR,
