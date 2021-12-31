@@ -21,6 +21,7 @@ import src.api.config
 
 from src.api import errmsg
 from src.api.config import OPTIONS
+from src.api.options import Action
 from src.api import global_
 
 from src.zxbasm import asmparse
@@ -33,6 +34,8 @@ def main(args=None):
     src.api.config.init()
     asmparse.init()
     zxbpp.init()
+
+    OPTIONS(Action.ADD, name="org", type=int, default=None, ignore_none=True)
 
     # Create option parser
     o_parser = argparse.ArgumentParser()
@@ -94,6 +97,8 @@ def main(args=None):
         help="Sets the program to auto run once loaded (implies --BASIC)",
     )
 
+    o_parser.add_argument("-S", "--org", type=str, help=f"Start of machine code. By default {OPTIONS.org}")
+
     o_parser.add_argument(
         "-e",
         "--errmsg",
@@ -136,6 +141,9 @@ def main(args=None):
     OPTIONS.force_asm_brackets = options.bracket
     OPTIONS.zxnext = options.zxnext
 
+    if options.org is not None:
+        OPTIONS.org = src.api.utils.parse_int(OPTIONS.org)
+
     if options.tzx:
         OPTIONS.output_file_type = "tzx"
     elif options.tap:
@@ -164,6 +172,8 @@ def main(args=None):
     zxbpp.main([OPTIONS.input_filename])
 
     # Now output the result
+    if OPTIONS.org is not None:
+        asmparse.MEMORY.set_org(OPTIONS.org)
     asm_output = zxbpp.OUTPUT
     asmparse.assemble(asm_output)
     if global_.has_errors:
