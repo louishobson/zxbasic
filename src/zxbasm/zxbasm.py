@@ -114,7 +114,7 @@ def main(args=None):
         help="Sets the program to auto run once loaded (implies --BASIC)",
     )
 
-    o_parser.add_argument("-S", "--org", type=str, help=f"Start of machine code. By default {OPTIONS.org}")
+    o_parser.add_argument("-S", "--org", type=str, help="Start of machine code. By default 0")
 
     o_parser.add_argument(
         "-e",
